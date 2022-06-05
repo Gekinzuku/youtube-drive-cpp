@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Split the nasa image into two 640x480 bmps,
+# convert the bmps to pngs and back, and recombine the original
+./file-to-bmp nasa-20210604.jpg 640 480 0 output_0_before.bmp
+./file-to-bmp nasa-20210604.jpg 640 480 1 output_1_before.bmp
+
+convert output_0_before.bmp output_0.png
+convert output_1_before.bmp output_1.png
+
+rm output_0.bmp output_1.bmp
+
+convert output_0.png output_0.bmp
+convert output_1.png output_1.bmp
+
+rm output.jpg
+
+./bmp-to-file output_0.bmp output.jpg
+./bmp-to-file output_1.bmp output.jpg
