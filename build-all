@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "Running build-all... this is hard-coded with g++ commands instead of any make system."
+
+echo "Building file-to-bmp..."
+g++ file-to-bmp.cc -o file-to-bmp
+if [ $? -eq 0 ]; then
+  echo "Success!"
+else
+  echo "Failed! Exiting..."
+  return 1
+fi
+
+echo "Building bmp-to-file..."
+g++ bmp-to-file.cc -o bmp-to-file
+if [ $? -eq 0 ]; then
+  echo "Success!"
+else
+  echo "Failed! Exiting..."
+  return 1
+fi

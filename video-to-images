@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ffmpeg -i output.mp4 frame%d.png -hide_banner

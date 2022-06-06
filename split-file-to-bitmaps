@@ -1,0 +1,38 @@
+#!/bin/bash
+
+WIDTH=320
+HEIGHT=240
+
+INPUT_FILENAME="nasa-20210604.jpg"
+OUTPUT_FILENAME_PREFIX="output_before_"
+
+SLICE=0
+OUTPUT_FILENAME="${OUTPUT_FILENAME_PREFIX}${SLICE}.bmp"
+./file-to-bmp ${INPUT_FILENAME} ${WIDTH} ${HEIGHT} ${SLICE} ${OUTPUT_FILENAME}
+if [ $? -ne 0 ]; then
+  echo "Nonzero exit status from the first frame conversion!"
+  echo "Attempted command: ./file-to-bmp ${INPUT_FILENAME} ${WIDTH} ${HEIGHT} ${SLICE} ${OUTPUT_FILENAME}"
+  echo "Exiting..."
+  return 1
+fi
+
+while [ $? -eq 0 ]; do
+  SLICE=$(expr ${SLICE} + 1)
+  OUTPUT_FILENAME="${OUTPUT_FILENAME_PREFIX}${SLICE}.bmp"
+  echo ${OUTPUT_FILENAME}
+  ./file-to-bmp ${INPUT_FILENAME} ${WIDTH} ${HEIGHT} ${SLICE} ${OUTPUT_FILENAME}
+done
+
+NUM_SLICES=${SLICE}
+
+echo "Created ${NUM_SLICES} slices!"
+
+SLICE=0
+while [ ${SLICE} -lt ${NUM_SLICES} ]; do
+  echo "Processing slice ${SLICE}..."
+  OUTPUT_FILENAME_BMP="${OUTPUT_FILENAME_PREFIX}${SLICE}.bmp"
+  OUTPUT_FILENAME_PNG="${OUTPUT_FILENAME_PREFIX}${SLICE}.png"
+  convert ${OUTPUT_FILENAME_BMP} ${OUTPUT_FILENAME_PNG}
+  rm ${OUTPUT_FILENAME_BMP}
+  SLICE=$(expr ${SLICE} + 1)
+done

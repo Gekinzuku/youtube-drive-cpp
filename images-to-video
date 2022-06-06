@@ -1,0 +1,8 @@
+#!/bin/bash
+
+FRAME_PREFIX="output_before_"
+WIDTH=320
+HEIGHT=240
+OUTPUT_FILE="output.mp4"
+
+ffmpeg -i ${FRAME_PREFIX}%d.png -c:v libx264 -preset ultrafast -vf scale=${WIDTH}:${HEIGHT} -sws_flags neighbor ${OUTPUT_FILE}

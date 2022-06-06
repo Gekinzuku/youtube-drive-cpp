@@ -1,0 +1,16 @@
+#!/bin/bash
+
+./split-file-to-bitmaps
+./images-to-video
+./video-to-images
+
+OUTPUT_FILENAME="output.jpg"
+
+FRAME_NUM=1
+
+while [ -e "frame${FRAME_NUM}.png" ]; do
+  echo "frame${FRAME_NUM}.png exists"
+  convert frame${FRAME_NUM}.png frame${FRAME_NUM}.bmp
+  FRAME_NUM=$(expr ${FRAME_NUM} + 1)
+  ./bmp-to-file frame${FRAME_NUM}.bmp ${OUTPUT_FILENAME}
+done

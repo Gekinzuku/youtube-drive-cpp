@@ -103,6 +103,11 @@ int main(int argc, char** argv)
 
   fseek(input_file_pointer, slice*datasize, SEEK_CUR);
 
+  if(slice*datasize > input_filesize) {
+    std::cout << "Slice " << slice << " is out of bounds!" << std::endl;
+    return 1;
+  }
+
   // copy the file into the input_file_slice:
   size_t read_size = (size_t) std::min((long)datasize, std::max(input_filesize-slice*datasize,(long)0));
   std::cout << "-Read size=" << read_size << std::endl;
